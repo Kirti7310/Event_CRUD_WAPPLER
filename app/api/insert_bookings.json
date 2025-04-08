@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "event_name",
+        "name": "event_name"
+      },
+      {
+        "type": "text",
+        "fieldName": "booking_date",
+        "name": "booking_date"
+      },
+      {
+        "type": "text",
+        "fieldName": "status",
+        "name": "status"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "bookings_insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "booking_db",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "bookings",
+              "column": "event_name",
+              "type": "text",
+              "value": "{{$_POST.event_name}}"
+            },
+            {
+              "table": "bookings",
+              "column": "booking_date",
+              "type": "date",
+              "value": "{{$_POST.booking_date}}"
+            },
+            {
+              "table": "bookings",
+              "column": "status",
+              "type": "text",
+              "value": "{{$_POST.status}}"
+            }
+          ],
+          "table": "bookings",
+          "returning": "booking_id",
+          "query": "insert into `bookings` (`booking_date`, `event_name`, `status`) values (?, ?, ?)",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.event_name}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.booking_date}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.status}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ],
+      "output": true
+    }
+  }
+}

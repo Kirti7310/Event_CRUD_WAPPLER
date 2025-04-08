@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "display_bookings",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "booking_db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "bookings",
+              "column": "event_name"
+            },
+            {
+              "table": "bookings",
+              "column": "booking_id"
+            },
+            {
+              "table": "bookings",
+              "column": "booking_date"
+            },
+            {
+              "table": "bookings",
+              "column": "status"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "bookings"
+          },
+          "primary": "booking_id",
+          "joins": [],
+          "query": "select `event_name`, `booking_id`, `booking_date`, `status` from `bookings`"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "text",
+          "name": "event_name"
+        },
+        {
+          "type": "number",
+          "name": "booking_id"
+        },
+        {
+          "type": "date",
+          "name": "booking_date"
+        },
+        {
+          "type": "text",
+          "name": "status"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

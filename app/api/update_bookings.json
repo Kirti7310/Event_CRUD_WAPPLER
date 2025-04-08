@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "event_name",
+        "name": "event_name"
+      },
+      {
+        "type": "date",
+        "fieldName": "booking_date",
+        "name": "booking_date"
+      },
+      {
+        "type": "text",
+        "fieldName": "status",
+        "name": "status"
+      },
+      {
+        "type": "number",
+        "name": "booking_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update_bookings",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "booking_db",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "bookings",
+              "column": "event_name",
+              "type": "text",
+              "value": "{{$_POST.event_name}}"
+            },
+            {
+              "table": "bookings",
+              "column": "booking_date",
+              "type": "date",
+              "value": "{{$_POST.booking_date}}"
+            },
+            {
+              "table": "bookings",
+              "column": "status",
+              "type": "text",
+              "value": "{{$_POST.status}}"
+            }
+          ],
+          "table": "bookings",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "booking_id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.booking_id}}",
+                "data": {
+                  "column": "booking_id"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "booking_id",
+          "query": "update `bookings` set `event_name` = ?, `booking_date` = ?, `status` = ? where `booking_id` = ?",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.event_name}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.booking_date}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.status}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P4",
+              "value": "{{$_POST.booking_id}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

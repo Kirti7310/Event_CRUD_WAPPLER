@@ -1,0 +1,114 @@
+<!-- Wappler include head-page="layouts/main" is="dmx-app" id="booking_form" appConnect="local" bootstrap5="cdn" components="{dmxBootstrap5Collapse:{},dmxNotifications:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxFormatter:{}}" -->
+<dmx-data-detail id="data_detail1" dmx-bind:data="serverconnectDISPLAY_EVENTS.data.display_bookings" key="booking_id" dmx-bind:value="booking_id"></dmx-data-detail>
+
+<div is="dmx-browser" id="browser1"></div>
+<dmx-notifications id="notifies1"></dmx-notifications>
+
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Bookings</h1>
+        </div>
+    </div><button id="btn1" class="btn BTN-PRIMARY btn-primary text-center" dmx-on:click="collapse1.toggle()">ADD NEW USER</button>
+    <button id="btn2" class="btn BTN-PRIMARY btn-primary text-center" dmx-on:click="collapse2.toggle()">ADD EVENT</button>
+    <button id="btn3" class="btn BTN-PRIMARY btn-primary text-center" dmx-on:click="collapse3.toggle()">DISPLAY EVENT</button>
+    <div class="collapse mt-3 mb-3" id="collapse1" is="dmx-bs5-collapse">
+        <form is="dmx-serverconnect-form" id="serverconnectform1" method="post" action="/api/insert_users" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies1.success('Insertion of User Done!');serverconnectform1.reset(true)" dmx-on:error="notifies1.danger('Oops:\\ ')">
+            <div class="form-group mb-3">
+                <label for="inp_name">Name</label>
+                <input type="text" class="form-control" id="inp_name" name="name" aria-describedby="inp_name_help" placeholder="Enter Name">
+            </div>
+            <div class="form-group mb-3">
+                <label for="inp_email">Email</label>
+                <input type="text" class="form-control" id="inp_email" name="email" aria-describedby="inp_email_help" placeholder="Enter Email">
+            </div>
+            <div class="form-group mb-3">
+                <label for="inp_phone_no">Phone no</label>
+                <input type="number" class="form-control" id="inp_phone_no" name="phone_no" aria-describedby="inp_phone_no_help" placeholder="Enter Phone no">
+            </div>
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+            </div>
+        </form>
+    </div>
+    <div class="collapse mt-3 mb-3" id="collapse2" is="dmx-bs5-collapse">
+
+        <form is="dmx-serverconnect-form" id="serverconnectform2" method="post" action="/api/insert_bookings" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies1.success('Event added!');serverconnectform2.reset();serverconnectDISPLAY_EVENTS.load({})" dmx-on:error="notifies1.danger('oopps :\\')">
+            <div class="form-group mb-3">
+                <label for="inp_event_name">Event name</label>
+                <input type="text" class="form-control" id="inp_event_name" name="event_name" aria-describedby="inp_event_name_help" placeholder="Enter Event name">
+            </div>
+            <div class="form-group mb-3">
+                <label for="inp_booking_date">Booking date</label>
+                <input type="date" class="form-control" id="inp_booking_date" name="booking_date" aria-describedby="inp_booking_date_help" placeholder="Enter Booking date">
+            </div>
+            <div class="form-group mb-3">
+                <label for="inp_status">Status</label>
+                <input type="text" class="form-control" id="inp_status" name="status" aria-describedby="inp_status_help" placeholder="Enter Status">
+            </div>
+            <div class="form-group mb-3">
+                <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+            </div>
+        </form>
+    </div>
+    <div class="collapse" id="collapse3" is="dmx-bs5-collapse">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Event name</th>
+                        <th>Booking date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="serverconnectDISPLAY_EVENTS.data.display_bookings" id="tableRepeat1">
+                    <tr dmx-on:click="data_detail1.select(booking_id);notifies1.success(booking_id)">
+                        <td dmx-text="event_name" dmx-class:bg-primary="booking_id==data_detail1.data.booking_id"></td>
+                        <td dmx-text="booking_date"></td>
+                        <td dmx-text="status"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mt-3 mb-4">
+        <div class="col">
+            <form is="dmx-serverconnect-form" id="serverconnectform3" method="post" action="/api/update_bookings" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-populate="data_detail1.data" dmx-on:success="notifies1.success('Event has been Updated!')" dmx-show="!data_detail1.data.isEmpty()">
+                <div class="form-group mb-3">
+                    <label for="inp_event_name">Event name</label>
+                    <input type="text" class="form-control" id="inp_event_name" name="event_name" dmx-bind:value="data_detail1.data.event_name" aria-describedby="inp_event_name_help" placeholder="Enter Event name">
+                </div>
+                <input type="hidden" name="booking_id" id="inp_booking_id" dmx-bind:value="data_detail1.data.booking_id">
+                <div class="form-group mb-3">
+                    <label for="inp_booking_date">Booking date</label>
+                    <input type="date" class="form-control" id="inp_booking_date" name="booking_date" dmx-bind:value="data_detail1.data.booking_date" aria-describedby="inp_booking_date_help" placeholder="Enter Booking date">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="inp_status">Status</label>
+                    <input type="text" class="form-control" id="inp_status" name="status" dmx-bind:value="data_detail1.data.status" aria-describedby="inp_status_help" placeholder="Enter Status">
+                </div>
+                <div class="form-group mb-3">
+
+                    <button type="submit" class="btn btn-primary" dmx-bind:value="data_detail1.data.Save" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button><button id="btn4" class="btn" dmx-on:click="serverconnectform4.submit()">Delete Event</button>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form is="dmx-serverconnect-form" id="serverconnectform4" method="post" action="/api/delete_bookings" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-populate="data_detail1.data" dmx-on:success="notifies1.success('event delete');serverconnectDISPLAY_EVENTS.load({})">
+                <input type="hidden" name="booking_id" id="inp_booking_id" dmx-bind:value="data_detail1.data.booking_id">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<meta name="ac:route" content="/booking_form">
+<dmx-serverconnect id="serverconnectDISPLAY_EVENTS" url="/api/disp_bookings"></dmx-serverconnect>

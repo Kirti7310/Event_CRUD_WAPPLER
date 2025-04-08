@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "name",
+        "name": "name"
+      },
+      {
+        "type": "text",
+        "fieldName": "email",
+        "name": "email"
+      },
+      {
+        "type": "number",
+        "fieldName": "phone_no",
+        "name": "phone_no"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "users_insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "booking_db",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "users",
+              "column": "name",
+              "type": "text",
+              "value": "{{$_POST.name}}"
+            },
+            {
+              "table": "users",
+              "column": "email",
+              "type": "text",
+              "value": "{{$_POST.email}}"
+            },
+            {
+              "table": "users",
+              "column": "phone_no",
+              "type": "number",
+              "value": "{{$_POST.phone_no}}"
+            }
+          ],
+          "table": "users",
+          "returning": "id",
+          "query": "insert into `users` (`email`, `name`, `phone_no`) values (?, ?, ?)",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.name}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.email}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.phone_no}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ],
+      "output": true
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "delete_bookings",
+  "module": "dbupdater",
+  "action": "delete",
+  "options": {
+    "connection": "booking_db",
+    "sql": {
+      "type": "delete",
+      "table": "bookings",
+      "wheres": {
+        "condition": "AND",
+        "rules": [
+          {
+            "id": "booking_id",
+            "type": "double",
+            "operator": "equal",
+            "value": "{{$_POST.booking_id}}",
+            "data": {
+              "column": "booking_id"
+            },
+            "operation": "="
+          }
+        ]
+      },
+      "returning": "booking_id",
+      "query": "delete from `bookings` where `booking_id` = ?",
+      "params": [
+        {
+          "operator": "equal",
+          "type": "expression",
+          "name": ":P1",
+          "value": "{{$_POST.booking_id}}",
+          "test": ""
+        }
+      ]
+    }
+  },
+  "meta": [
+    {
+      "name": "affected",
+      "type": "number"
+    }
+  ],
+  "output": true
+}

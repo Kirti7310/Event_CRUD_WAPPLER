@@ -1,0 +1,10 @@
+{
+  "booking_form.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "Dashboard.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

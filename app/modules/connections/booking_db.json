@@ -1,0 +1,16 @@
+{
+  "name": "booking_db",
+  "module": "dbconnector",
+  "action": "connect",
+  "options": {
+    "client": "mysql2",
+    "connection": {
+      "host": "localhost",
+      "user": "root",
+      "password": "root",
+      "database": "booking_db"
+    },
+    "tz": "utc"
+  },
+  "fileName": "booking_db.json"
+}

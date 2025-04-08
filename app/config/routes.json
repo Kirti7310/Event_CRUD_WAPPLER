@@ -1,0 +1,20 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "page": "index",
+      "routeType": "page",
+      "layout": "main"
+    },
+    {
+      "path": "/booking_form",
+      "page": "booking_form",
+      "layout": "main"
+    },
+    {
+      "path": "/Dashboard",
+      "page": "Dashboard",
+      "layout": "main"
+    }
+  ]
+}
